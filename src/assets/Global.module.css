@@ -14,3 +14,29 @@
     padding-bottom: 50px
 }
 .firstText{width: 700px}
+.singleMovie{
+    max-width: 1280px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background: rgba(0,0,0,.7);
+    position: relative;
+    color: #fff
+}
+.img{
+    width: 100%;
+    height: auto;
+    background-size: contain;
+  }
+  .singleImg{
+      float: left
+  }
+  .actorImg{
+      width: 100px;
+      float: left
+  }
+  .singleActor{
+      background:#242420;
+      color: #fff;
+      height: 100%
+  }
