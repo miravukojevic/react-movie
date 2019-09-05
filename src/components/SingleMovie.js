@@ -11,7 +11,7 @@ const SingleMovie = (props) => {
     useEffect(() => {
         const fetchData = async () => {
           const result = await axios(
-            `https://api.themoviedb.org/3/movie/${props.location.state.mira.id}/credits?api_key=844dba0bfd8f3a4f3799f6130ef9e335`
+            `https://api.themoviedb.org/3/movie/${props.location.state.item.id}/credits?api_key=844dba0bfd8f3a4f3799f6130ef9e335`
           );
           console.log(result.data)
           setData(result.data);
@@ -22,14 +22,14 @@ const SingleMovie = (props) => {
     return ( 
         <Fragment>
         <div style={{
-            backgroundImage: `url("https://image.tmdb.org/t/p/original${props.location.state.mira.backdrop_path}")`,
+            backgroundImage: `url("https://image.tmdb.org/t/p/original${props.location.state.item.backdrop_path}")`,
             padding: '40px 0'
         }} >
              {console.log('RENDEr', data)}
             <div className={classes.singleMovie}>
-                <img width="300px" className={classes.singleImg} src={`https://image.tmdb.org/t/p/w500${props.location.state.mira.poster_path}`}/>
-                <h1> {props.location.state.mira.original_title}</h1>
-                {props.location.state.mira.overview}
+                <img width="300px" className={classes.singleImg} src={`https://image.tmdb.org/t/p/w500${props.location.state.item.poster_path}`}/>
+                <h1> {props.location.state.item.original_title}</h1>
+                {props.location.state.item.overview}
                 <div style={{clear: 'both'}} ></div>
             </div>
             

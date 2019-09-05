@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import classes from '../assets/Global.module.css';
 import { browserHistory, BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import SingleMovie from './SingleMovie';
+import Search from './Search'
 
 
 
@@ -10,7 +11,8 @@ class HomeMovies extends Component {
         movies: [],
         avatarUrl: [],
         page: 1,
-        updatedMoviesArray: []
+        updatedMoviesArray: [],
+        items: []
      }
     componentDidMount = () => {
         this.fetchData()
@@ -25,27 +27,46 @@ class HomeMovies extends Component {
          })
     }
     fetchDataOnLoadMore =() => {
-        
         this.setState(state => {
             return {
                 page: state.page + 1,
-               
             };
           }, () => {
             this.fetchData()
           });
-          
-        // this.setState({
-        //     movies: this.state.movies,
-        //     page: this.state.page + 1,
-        //   })
-         
+    }
+    filterList = (event) => {
+        var updatedList = this.state.movies;
+        updatedList = updatedList.filter(function(item){
+          return item.title.toLowerCase().search(
+            event.target.value.toLowerCase()) !== -1;
+        }).map(name => name);
+        this.setState(state => {
+            return {
+                items: updatedList,
+                movies: state.movies.filter(item => <div className="col-sm-3">
+                    <Link to={{
+                        pathname: `single-movie/${item.id}`,
+                        state: {
+                            item
+                        }
+                    }}>
+                        {item.title}
+                    </Link>
+            </div>)
+            }
+        });
+    }
+      
+    componentWillMount = () =>{
+        this.setState({items: this.state.movies})
     }
     render() { 
         if (this.state.movies.length > 0){
             return ( 
            
                 <div>
+                    <Search  filterList={this.filterList}  linkToMovie={this.linkToMovie} items={this.state.items}/>
                     <div className="row">
                         <div className={classes.firstMovie} style={{
                             backgroundImage: `url("https://image.tmdb.org/t/p/original${this.state.movies[0].backdrop_path}")`,
@@ -59,34 +80,34 @@ class HomeMovies extends Component {
                         </div>
                     </div>
                     <div class="row">
-                        {this.state.movies.map((mira, key) =>
+                        {this.state.movies.map((item, key) =>
                             <div className="col-sm-3">
                                 <Link to={{
-                                    pathname: `single-movie/${mira.id}`,
+                                    pathname: `single-movie/${item.id}`,
                                     state: {
-                                        mira
+                                        item
                                     }
                                 }}>
-                                    {mira.name}
-                                    <img className={classes.img} key={key}  src={`https://image.tmdb.org/t/p/w500${mira.poster_path}`}/>
+                                    {item.name}
+                                    <img className={classes.img} key={key}  src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}/>
                                 </Link>
-                                
                             </div>)}
                     </div>
-                    {/* {
-                    this.state.avatarUrl && <img src={`https://image.tmdb.org/t/p/w500/${this.state.avatarUrl[0].id}`} width="60" />} */}
                     
                 <button className="btn btn-primary" onClick={this.fetchDataOnLoadMore}>LOAD MORE MOVIES</button>
                 </div>
        
              );
         } else {
-            return <div style={{background: 'black',
-                                height: '100vh',
-                                fontSize: '60px'
-                                }}> <i className="fa fa-refresh"></i> LOADING!!!</div>
+           return(
+            <div class="row">
+                {this.state.updatedMoviesArray.map(movie => console.log('MOVIE', movie))}
+                        {this.state.items.map((mira, key) =>
+                            console.log('MIRA',mira))}
+                    </div>
+                    
+            )
         }
-        
     }
 }
  
