@@ -17,7 +17,7 @@ function App() {
         </a>
       </header>
       <Router>
-        <Route exact path="/" component={HomeMovies}/>
+        <Route exact path="/" component={HomeMovies} className={classes.Header}/>
         <Route exact path={'/single-movie/:id'} component={SingleMovie} />
       </Router>
       
